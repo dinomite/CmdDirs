@@ -1,0 +1,47 @@
+#!/usr/bin/env perl
+# Drew Stephens <drew@dinomite.net>
+# 2011-02-11
+#
+# Perform an action on all subdirectories given on the command line, or
+# globbed from the working directory.
+#
+# Check the status of all Git repos in this directory:
+#     gitall.pl "git status"
+#
+# Check the status of the Git repos "foo" and "bar" in this directory:
+#     gitall.pl "git status" foo bar
+use strict;
+use warnings;
+use Cwd;
+use Traverser::Base;
+
+my $usage = "Usage: $0 gitcmd [dir ...]";
+die $usage unless (scalar(@ARGV) > 0);
+
+# TODO use getopt
+my $quiet = 0;
+
+my $topDir = cwd();
+my $command = $ARGV[0];
+my @dirs;
+
+# Get any dirs passed on the command line
+foreach (my $x = 1; $x <= $#ARGV; $x++) {
+    push @dirs, $ARGV[$x];
+}
+
+# Fill dirs if none were passed
+if ($#dirs == -1) {
+    @dirs = glob '*';
+}
+
+my $traverser;
+# Createa  traverser for specific command types
+if ($command =~ /git/) {
+    require Traverser::Git;
+    $traverser = Traverser::Git->new($command, $topDir, \@dirs);
+} else {
+    $traverser = Traverser::Base->new($command, $topDir, \@dirs);
+}
+
+$traverser->traverse($quiet);
