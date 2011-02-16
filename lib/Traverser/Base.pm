@@ -2,6 +2,8 @@ package Traverser::Base;
 use strict;
 use warnings;
 
+use Term::ANSIColor;
+
 sub new {
     my ($class, $command, $topDir, $dirs) = @_;
 
