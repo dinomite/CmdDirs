@@ -1,26 +1,83 @@
 #!/usr/bin/env perl
-# Drew Stephens <drew@dinomite.net>
-# 2011-02-11
-#
-# Perform an action on all subdirectories given on the command line, or
-# globbed from the working directory.
-#
-# Check the status of all Git repos in this directory:
-#     gitall.pl "git status"
-#
-# Check the status of the Git repos "foo" and "bar" in this directory:
-#     gitall.pl "git status" foo bar
 use strict;
 use warnings;
+use lib "/Users/drew/sandbox/CmdAll/lib";
+use Pod::Usage;
+
+=head1 NAME
+
+cmdall - perform an action on subdirectories
+
+=head1 SYNOPSIS
+
+cmdall [options] command [dir ...]
+
+If no directories are provided, cmdall will perform the command in all
+subdirectories of the current working directory.  Only subdirectories
+appropriate for the given command (e.g. git repositories, if your command
+contains the word "git") or the given directory options are acted upon.
+
+See the man page (-man) for a full list of available directory filters.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-h|help>
+Show help message
+
+=item B<-m|man>
+Show manpage
+
+=item B<-a|all>
+Perform command in all directories
+
+=item B<-q|quiet>
+Don't print out the commands as they're run
+
+=back
+
+=head1 FILTERS
+
+# TODO
+
+=head1 EXAMPLES
+
+Check the status of all Git repos in this directory:
+    gitall.pl "git status"
+
+Check the status of the Git repos "foo" and "bar" in this directory:
+    gitall.pl "git status" foo bar
+
+=head1 AUTHOR
+
+Drew Stephens <drew@dinomite.net>
+
+=cut
+
 use Cwd;
+use Getopt::Long;
+
 use Traverser::Base;
 
-my $usage = "Usage: $0 gitcmd [dir ...]";
-die $usage unless (scalar(@ARGV) > 0);
-
-# TODO use getopt
+my $help = 0;
+my $man = 0;
+my $allDirs = 0;
 my $quiet = 0;
 
+GetOptions(
+    'help|h'    => \$help,
+    'man|m'     => \$man,
+    'all|a'     => \$allDirs,
+    'quiet|q'   => \$quiet,
+);
+pod2usage(-verbose => 1) if ($help);
+pod2usage(-verbose => 2) if ($man);
+
+# We at least need a command
+pod2usage(1) unless (scalar(@ARGV) > 0);
+
+# Pull working dir & post-option arguments
 my $topDir = cwd();
 my $command = $ARGV[0];
 my @dirs;
@@ -30,7 +87,7 @@ foreach (my $x = 1; $x <= $#ARGV; $x++) {
     push @dirs, $ARGV[$x];
 }
 
-# Fill dirs if none were passed
+# No directories passed, glob all
 if ($#dirs == -1) {
     @dirs = glob '*';
 }
@@ -38,6 +95,7 @@ if ($#dirs == -1) {
 my $traverser;
 # Create a traverser for specific command types
 # TODO use command line switches (--git) also
+# TODO resepect $allDirs
 if ($command =~ /git/) {
     require Traverser::Git;
     $traverser = Traverser::Git->new($command, $topDir, \@dirs);
