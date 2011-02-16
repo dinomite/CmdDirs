@@ -36,7 +36,8 @@ if ($#dirs == -1) {
 }
 
 my $traverser;
-# Createa  traverser for specific command types
+# Create a traverser for specific command types
+# TODO use command line switches (--git) also
 if ($command =~ /git/) {
     require Traverser::Git;
     $traverser = Traverser::Git->new($command, $topDir, \@dirs);
