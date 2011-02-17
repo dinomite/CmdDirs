@@ -1,4 +1,4 @@
-package Traverser::Base;
+package App::CmdAll::Traverser::Base;
 use strict;
 use warnings;
 

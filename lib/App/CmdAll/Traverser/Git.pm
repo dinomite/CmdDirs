@@ -1,9 +1,9 @@
-package Traverser::Git;
+package App::CmdAll::Traverser::Git;
 use strict;
 use warnings;
 
-use Traverser::Base;
-our @ISA = ('Traverser::Base');
+use App::CmdAll::Traverser::Base;
+our @ISA = ('App::CmdAll::Traverser::Base');
 
 # Return false if the passed directory does not have a .git subdirectory
 sub test {

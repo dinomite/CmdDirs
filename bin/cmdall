@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib "/Users/drew/sandbox/CmdAll/lib";
 use Pod::Usage;
+use Getopt::Long;
+use App::CmdAll;
 
 =head1 NAME
 
@@ -15,7 +16,7 @@ cmdall [options] command [dir ...]
 If no directories are provided, cmdall will perform the command in all
 subdirectories of the current working directory.  Only subdirectories
 appropriate for the given command (e.g. git repositories, if your command
-contains the word "git") or the given directory options are acted upon.
+    -contains the word "git") or the given directory options are acted upon.
 
 See the man page (-man) for a full list of available directory filters.
 
@@ -55,52 +56,20 @@ Drew Stephens <drew@dinomite.net>
 
 =cut
 
-use Cwd;
-use Getopt::Long;
-
-use App::CmdAll::Traverser::Base;
-
-my $help = 0;
-my $man = 0;
-my $allDirs = 0;
-my $quiet = 0;
-
-GetOptions(
-    'help|h'    => \$help,
-    'man|m'     => \$man,
-    'all|a'     => \$allDirs,
-    'quiet|q'   => \$quiet,
+my $options = {};
+GetOptions($options,
+    'help|h',
+    'man|m',
+    'all|a',
+    'quiet|q'
 );
-pod2usage(-verbose => 1) if ($help);
-pod2usage(-verbose => 2) if ($man);
+
+pod2usage(-verbose => 1) if ($options->{'help'});
+pod2usage(-verbose => 2) if ($options->{'man'});
 
 # We at least need a command
 pod2usage(1) unless (scalar(@ARGV) > 0);
 
-# Pull working dir & post-option arguments
-my $topDir = cwd();
-my $command = $ARGV[0];
-my @dirs;
 
-# Get any dirs passed on the command line
-foreach (my $x = 1; $x <= $#ARGV; $x++) {
-    push @dirs, $ARGV[$x];
-}
-
-# No directories passed, glob all
-if ($#dirs == -1) {
-    @dirs = glob '*';
-}
-
-my $traverser;
-# Create a traverser for specific command types
-# TODO use command line switches (--git) also
-# TODO resepect $allDirs
-if ($command =~ /git/) {
-    require App::CmdAll::Traverser::Git;
-    $traverser = Traverser::Git->new($command, $topDir, \@dirs);
-} else {
-    $traverser = Traverser::Base->new($command, $topDir, \@dirs);
-}
-
-$traverser->traverse($quiet);
+my $cmdAll = App::CmdAll->new(\@ARGV, $options);
+$cmdAll->run();
