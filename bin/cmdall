@@ -58,7 +58,7 @@ Drew Stephens <drew@dinomite.net>
 use Cwd;
 use Getopt::Long;
 
-use Traverser::Base;
+use App::CmdAll::Traverser::Base;
 
 my $help = 0;
 my $man = 0;
@@ -97,7 +97,7 @@ my $traverser;
 # TODO use command line switches (--git) also
 # TODO resepect $allDirs
 if ($command =~ /git/) {
-    require Traverser::Git;
+    require App::CmdAll::Traverser::Git;
     $traverser = Traverser::Git->new($command, $topDir, \@dirs);
 } else {
     $traverser = Traverser::Base->new($command, $topDir, \@dirs);
