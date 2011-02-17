@@ -61,7 +61,8 @@ GetOptions($options,
     'help|h',
     'man|m',
     'all|a',
-    'quiet|q'
+    'quiet|q',
+    'git',
 );
 
 pod2usage(-verbose => 1) if ($options->{'help'});

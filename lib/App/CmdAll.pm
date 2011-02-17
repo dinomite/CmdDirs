@@ -28,12 +28,13 @@ sub run {
 
     # Pull working dir & post-option arguments
     my $topDir = cwd();
-    my $command = $ARGV[0];
+    my @argv = @{$self->{'argv'}};
+    my $command = $argv[0];
     my @dirs;
 
     # Get any dirs passed on the command line
-    foreach (my $x = 1; $x <= $#ARGV; $x++) {
-        push @dirs, $ARGV[$x];
+    foreach (my $x = 1; $x < scalar(@argv); $x++) {
+        push @dirs, $argv[$x];
     }
 
     # No directories passed, glob all
@@ -45,7 +46,7 @@ sub run {
     # Create a traverser for specific command types
     # TODO use command line switches (--git) also
     # TODO resepect $allDirs
-    if ($command =~ /git/) {
+    if ($self->{'options'}->{'git'} || $command =~ /git/) {
         require App::CmdAll::Traverser::Git;
         $traverser = App::CmdAll::Traverser::Git->new($command, $topDir, \@dirs);
     } else {
