@@ -39,7 +39,7 @@ sub traverse {
         # Tell the user what command is going to be run
         unless ($quiet) {
             print color 'bold green';
-            print "Performing <$command> in $dir\n";
+            print "Performing `$command` in <$dir>\n";
             print color 'reset';
         }
 
