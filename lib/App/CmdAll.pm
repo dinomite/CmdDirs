@@ -45,9 +45,9 @@ sub run {
 
     my $traverser;
     # Create a traverser for specific command types
-    # TODO use command line switches (--git) also
-    # TODO resepect $allDirs
-    if ($self->{'options'}->{'git'} || $command =~ /git/) {
+    if ($self->{'options'}{'all'}) {
+        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, \@dirs);
+    } elsif ($self->{'options'}->{'git'} || $command =~ /git/) {
         require App::CmdAll::Traverser::Git;
         $traverser = App::CmdAll::Traverser::Git->new($command, $topDir, \@dirs);
     } elsif ($self->{'options'}->{'svn'} || $command =~ /svn/) {
