@@ -63,6 +63,7 @@ GetOptions($options,
     'all|a',
     'quiet|q',
     'git',
+    'svn',
 );
 
 pod2usage(-verbose => 1) if ($options->{'help'});

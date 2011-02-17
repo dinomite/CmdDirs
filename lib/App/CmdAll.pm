@@ -23,6 +23,7 @@ sub new {
     return $self;
 }
 
+# Find directories to act upon, choose a traverser, and go
 sub run {
     my ($self) = @_;
 
@@ -49,6 +50,9 @@ sub run {
     if ($self->{'options'}->{'git'} || $command =~ /git/) {
         require App::CmdAll::Traverser::Git;
         $traverser = App::CmdAll::Traverser::Git->new($command, $topDir, \@dirs);
+    } elsif ($self->{'options'}->{'svn'} || $command =~ /svn/) {
+        require App::CmdAll::Traverser::Subversion;
+        $traverser = App::CmdAll::Traverser::Subversion->new($command, $topDir, \@dirs);
     } else {
         $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, \@dirs);
     }
