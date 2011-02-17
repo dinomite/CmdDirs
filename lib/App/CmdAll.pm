@@ -7,6 +7,11 @@ use Getopt::Long;
 
 use App::CmdAll::Traverser::Base;
 
+our $VERSION;
+BEGIN {
+    $VERSION = '1.00';
+}
+
 sub new {
     my ($class, $argv, $options) = @_;
 
