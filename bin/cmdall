@@ -40,7 +40,13 @@ Don't print out the commands as they're run
 
 =head1 FILTERS
 
-# TODO
+=over 4
+
+=item B<--git>
+
+=item B<--svn>
+
+=back
 
 =head1 EXAMPLES
 
