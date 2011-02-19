@@ -1,12 +1,13 @@
-#!perl
-use strict;
+use 5.12.0;
 use warnings;
 
+package App::CmdAllTest;
+use base qw(Test::Class);
 use Cwd;
 use File::Temp;
-use Test::More tests => 5;
+use Test::More;
 
-use_ok('App::CmdAll');
+use App::CmdAll;
 
 my $originalDir = cwd();
 
@@ -14,10 +15,9 @@ my $dir;
 my $gitRepo = 'gitRepo';
 my $svnRepo = 'svnRepo';
 
-# Create and enter a temporary directory
-sub setUp {
+sub makeTestDir : Test(setup) {
     # Cleanup any existing dir
-    tearDown();
+    cleanup();
 
     # Create teh tempdir & go there
     $dir = File::Temp->newdir();
@@ -42,31 +42,25 @@ sub makeDir {
 }
 
 # Leave the tmpdir so that it can be cleaned up
-sub tearDown {
+sub cleanup : Test(teardown) {
     chdir $originalDir;
     undef $dir;
 }
 
-# Test git detection from command
-setUp();
-my $testFile = 'git_repo_file';
-my @argv = ("touch $testFile");
-my $cmdAll = App::CmdAll->new(\@argv, {'quiet' => 1});
-$cmdAll->run();
-ok(-f "$gitRepo/$testFile");
-system("ls $svnRepo");
-ok(! -f "$svnRepo/$testFile");
+sub testGit : Test(2) {
+    my $testFile = 'git_repo_file';
+    my @argv = ("touch $testFile");
+    my $cmdAll = App::CmdAll->new(\@argv, {'quiet' => 1});
+    $cmdAll->run();
+    ok(-f "$gitRepo/$testFile");
+    ok(! -f "$svnRepo/$testFile");
+}
 
-# Test svn detection from command
-setUp();
-$testFile = 'svn_repo_file';
-@argv = ("touch $testFile");
-$cmdAll = App::CmdAll->new(\@argv, {'quiet' => 1});
-$cmdAll->run();
-ok(-f "$svnRepo/$testFile");
-ok(! -f "$gitRepo/$testFile");
-
-#
-# Tear down
-#
-tearDown();
+sub testSvn : Test(2) {
+    my $testFile = 'svn_repo_file';
+    my @argv = ("touch $testFile");
+    my $cmdAll = App::CmdAll->new(\@argv, {'quiet' => 1});
+    $cmdAll->run();
+    ok(-f "$svnRepo/$testFile");
+    ok(! -f "$gitRepo/$testFile");
+}
