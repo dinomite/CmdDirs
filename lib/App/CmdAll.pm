@@ -58,6 +58,8 @@ sub run {
     }
 
     $traverser->traverse($self->{'options'}->{'quiet'});
+
+    return 1;
 }
 
 1;

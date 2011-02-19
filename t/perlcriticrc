@@ -1,0 +1,7 @@
+severity = 3
+
+# Errors include the policy that was violated
+verbose = 8
+
+# Force perlcritic to use color, even when run through a pager.
+color = 1

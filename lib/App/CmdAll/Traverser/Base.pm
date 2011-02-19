@@ -50,6 +50,8 @@ sub traverse {
 
         print "\n";
     }
+
+    return 1
 }
 
 1;
