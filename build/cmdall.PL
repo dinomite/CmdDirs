@@ -1,8 +1,14 @@
 #!/usr/bin/env perl
+# DEVELOPERS: Read build/build.PL & DEVELOPING for how to update this
+# __FATPACK__
 use strict;
 use warnings;
-use Pod::Usage;
+
+use FindBin qw($Bin);                    # For dev -- Auto-removed
+use lib "$Bin/../lib", "$Bin/../fatlib"; # For dev -- Auto-removed
 use Getopt::Long;
+use Pod::Usage;
+
 use App::CmdAll;
 
 =head1 NAME

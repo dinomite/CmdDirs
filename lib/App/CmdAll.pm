@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use Cwd;
-use Getopt::Long;
 
 use App::CmdAll::Traverser::Base;
 
