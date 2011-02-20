@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 # Thanks to App::cpanminus
 # See: https://github.com/miyagawa/cpanminus.git:script/build.PL
+use English;
 
 # build/cmdall.PL is the command-line framework (option parsing, etc.)
 open my $in,  "<", "build/cmdall.PL" or die $!;
@@ -13,7 +14,7 @@ while (<$in>) {
     # Remove & replace things from bin/cmdall.PL
     next if /Auto-removed/;
     s/DEVELOPERS:.*/DO NOT EDIT -- this is an auto generated file/;
-    s/.*__FATPACK__/`$^X -e "use App::FatPacker -run_script" file`/e;
+    s/.*__FATPACK__/`$EXECUTABLE_NAME -e "use App::FatPacker -run_script" file`/e;
     print $out $_;
 }
 
