@@ -3,15 +3,15 @@
 # See: https://github.com/miyagawa/cpanminus.git:script/build.PL
 use English;
 
-# build/cmdall.PL is the command-line framework (option parsing, etc.)
-open my $in,  "<", "build/cmdall.PL" or die $!;
+# build/cmddirs.PL is the command-line framework (option parsing, etc.)
+open my $in,  "<", "build/cmddirs.PL" or die $!;
 # The fatpacked binary we are building
-open my $out, ">", "cmdall.tmp" or die $!;
+open my $out, ">", "cmddirs.tmp" or die $!;
 
-print STDERR "Generating cmdall from script/cmdall.PL\n";
+print STDERR "Generating cmddirs from script/cmddirs.PL\n";
 
 while (<$in>) {
-    # Remove & replace things from bin/cmdall.PL
+    # Remove & replace things from bin/cmddirs.PL
     next if /Auto-removed/;
     s/DEVELOPERS:.*/DO NOT EDIT -- this is an auto generated file/;
     s/.*__FATPACK__/`$EXECUTABLE_NAME -e "use App::FatPacker -run_script" file`/e;
@@ -21,8 +21,8 @@ while (<$in>) {
 close $out;
 
 # Cleanup, make our fatpacked binary executable
-unlink "cmdall";
-rename "cmdall.tmp", "cmdall";
-chmod 0755, "cmdall";
+unlink "cmddirs";
+rename "cmddirs.tmp", "cmddirs";
+chmod 0755, "cmddirs";
 
-END { unlink "cmdall.tmp" }
+END { unlink "cmddirs.tmp" }

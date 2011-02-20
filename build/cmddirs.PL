@@ -3,21 +3,23 @@
 # __FATPACK__
 use strict;
 use warnings;
+
 use FindBin qw($Bin);                    # For dev -- Auto-removed
 use lib "$Bin/../lib", "$Bin/../fatlib"; # For dev -- Auto-removed
-use Pod::Usage;
 use Getopt::Long;
-use App::CmdAll;
+use Pod::Usage;
+
+use App::CmdDirs;
 
 =head1 NAME
 
-cmdall - perform an action on subdirectories
+cmddirs - perform a command in subdirectories
 
 =head1 SYNOPSIS
 
-cmdall [options] command [dir ...]
+cmddirs [options] command [dir ...]
 
-If no directories are provided, cmdall will perform the command in all
+If no directories are provided, cmddirs will perform the command in all
 subdirectories of the current working directory.  Only subdirectories
 appropriate for the given command (e.g. git repositories, if your command
     -contains the word "git") or the given directory options are acted upon.
@@ -82,5 +84,5 @@ pod2usage(-verbose => 2) if ($options->{'man'});
 # We at least need a command
 pod2usage(1) unless (scalar(@ARGV) > 0);
 
-my $cmdAll = App::CmdAll->new(\@ARGV, $options);
-$cmdAll->run();
+my $cmdDirs = App::CmdDirs->new(\@ARGV, $options);
+$cmdDirs->run();

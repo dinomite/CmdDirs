@@ -1,13 +1,13 @@
 use 5.12.0;
 use warnings;
 
-package App::CmdAllTest;
+package App::CmdDirsTest;
 use base qw(Test::Class);
 use Cwd;
 use File::Temp;
 use Test::More;
 
-use App::CmdAll;
+use App::CmdDirs;
 
 my $originalDir = cwd();
 
@@ -50,8 +50,8 @@ sub cleanup : Test(teardown) {
 sub testGit : Test(2) {
     my $testFile = 'git_repo_file';
     my @argv = ("touch $testFile");
-    my $cmdAll = App::CmdAll->new(\@argv, {'quiet' => 1});
-    $cmdAll->run();
+    my $cmdDirs = App::CmdDirs->new(\@argv, {'quiet' => 1});
+    $cmdDirs->run();
     ok(-f "$gitRepo/$testFile");
     ok(! -f "$svnRepo/$testFile");
 }
@@ -59,8 +59,8 @@ sub testGit : Test(2) {
 sub testSvn : Test(2) {
     my $testFile = 'svn_repo_file';
     my @argv = ("touch $testFile");
-    my $cmdAll = App::CmdAll->new(\@argv, {'quiet' => 1});
-    $cmdAll->run();
+    my $cmdDirs = App::CmdDirs->new(\@argv, {'quiet' => 1});
+    $cmdDirs->run();
     ok(-f "$svnRepo/$testFile");
     ok(! -f "$gitRepo/$testFile");
 }

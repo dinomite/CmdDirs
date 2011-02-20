@@ -1,7 +1,7 @@
 =for developers
 
-If you're a developer, Makefile.PL will pack `cmdall` from
-build/cmdall.PL and then copy that file to `bin/cmdall`.
+If you're a developer, Makefile.PL will pack `cmddirs` from
+build/cmddirs.PL and then copy that file to `bin/cmddirs`.
 
 You can pretend to be an author by running it with:
 
@@ -9,7 +9,7 @@ You can pretend to be an author by running it with:
 
 You should install App::FatPacker before doing so.
 
-Do not commit the changes to the `cmdall` standalone executable. We only
+Do not commit the changes to the `cmddirs` standalone executable. We only
 commit changes to this file whenever we tag a new CPAN release.
 
 =cut
@@ -18,18 +18,18 @@ use English '-no_match_vars';
 my $author = ((grep{ $_ eq '--author' } @ARGV) or -d '.git' && `git remote -v` =~ /git\@github/);
 print STDERR "Running in author mode!\n" if $author;
 
-# Author: perl Makefile.PL packs 'build/cmdall.PL' -> 'cmdall'
+# Author: perl Makefile.PL packs 'build/cmddirs.PL' -> 'cmddirs'
 if ($author) {
     shift @ARGV;
     system $EXECUTABLE_NAME, "build/build.PL" and die $?;
 }
 
-# perl Makefile.PL (from git repo) copies 'cmdall' -> 'bin/cmdall'
-if (-e 'cmdall') {
-    print STDERR "Generating bin/cmdall from cmdall\n";
+# perl Makefile.PL (from git repo) copies 'cmddirs' -> 'bin/cmddirs'
+if (-e 'cmddirs') {
+    print STDERR "Generating bin/cmddirs from cmddirs\n";
     mkdir 'bin';
-    open my $in,  "<cmdall"     or die $!;
-    open my $out, ">bin/cmdall" or die $!;
+    open my $in,  "<cmddirs"     or die $!;
+    open my $out, ">bin/cmddirs" or die $!;
     while (<$in>) {
         s|^#!/usr/bin/env perl|#!perl|; # so MakeMaker can fix it
         print $out $_
@@ -38,8 +38,8 @@ if (-e 'cmdall') {
 
 use ExtUtils::MakeMaker;
 WriteMakefile(
-    NAME => 'App::CmdAll',
-    VERSION_FROM => "lib/App/CmdAll.pm",
+    NAME => 'App::CmdDirs',
+    VERSION_FROM => "lib/App/CmdDirs.pm",
     ABSTRACT => 'Perform a command in subdirectories',
     PREREQ_PM => {
         'Module::Build' => 0.36,
@@ -47,5 +47,5 @@ WriteMakefile(
         'ExtUtils::Install' => 1.46,
     },
     LICENSE => 'perl',
-    EXE_FILES => [ 'bin/cmdall' ],
+    EXE_FILES => [ 'bin/cmddirs' ],
 );

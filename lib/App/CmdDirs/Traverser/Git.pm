@@ -1,5 +1,5 @@
-package App::CmdAll::Traverser::Git;
-use base 'App::CmdAll::Traverser::Base';
+package App::CmdDirs::Traverser::Git;
+use base 'App::CmdDirs::Traverser::Base';
 use strict;
 use warnings;
 

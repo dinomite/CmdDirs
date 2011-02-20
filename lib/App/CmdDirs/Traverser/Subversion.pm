@@ -1,5 +1,5 @@
-package App::CmdAll::Traverser::Subversion;
-use base 'App::CmdAll::Traverser::Base';
+package App::CmdDirs::Traverser::Subversion;
+use base 'App::CmdDirs::Traverser::Base';
 use strict;
 use warnings;
 

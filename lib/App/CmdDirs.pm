@@ -1,10 +1,10 @@
-package App::CmdAll;
+package App::CmdDirs;
 use strict;
 use warnings;
 
 use Cwd;
 
-use App::CmdAll::Traverser::Base;
+use App::CmdDirs::Traverser::Base;
 
 our $VERSION;
 BEGIN {
@@ -55,15 +55,15 @@ sub getTraverser {
     my $traverser;
 
     if ($self->{'options'}{'all'}) {
-        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, $dirs);
+        $traverser = App::CmdDirs::Traverser::Base->new($command, $topDir, $dirs);
     } elsif ($self->{'options'}->{'git'} || $command =~ /git/) {
-        require App::CmdAll::Traverser::Git;
-        $traverser = App::CmdAll::Traverser::Git->new($command, $topDir, $dirs);
+        require App::CmdDirs::Traverser::Git;
+        $traverser = App::CmdDirs::Traverser::Git->new($command, $topDir, $dirs);
     } elsif ($self->{'options'}->{'svn'} || $command =~ /svn/) {
-        require App::CmdAll::Traverser::Subversion;
-        $traverser = App::CmdAll::Traverser::Subversion->new($command, $topDir, $dirs);
+        require App::CmdDirs::Traverser::Subversion;
+        $traverser = App::CmdDirs::Traverser::Subversion->new($command, $topDir, $dirs);
     } else {
-        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, $dirs);
+        $traverser = App::CmdDirs::Traverser::Base->new($command, $topDir, $dirs);
     }
 
     return $traverser;
