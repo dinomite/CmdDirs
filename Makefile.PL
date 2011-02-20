@@ -28,12 +28,7 @@ if ($author) {
 if (-e 'cmddirs') {
     print STDERR "Generating bin/cmddirs from cmddirs\n";
     mkdir 'bin';
-    open my $in,  "<cmddirs"     or die $!;
-    open my $out, ">bin/cmddirs" or die $!;
-    while (<$in>) {
-        s|^#!/usr/bin/env perl|#!perl|; # so MakeMaker can fix it
-        print $out $_
-    }
+    rename 'cmddirs', 'bin/cmddirs';
 }
 
 use ExtUtils::MakeMaker;
@@ -42,9 +37,7 @@ WriteMakefile(
     VERSION_FROM => "lib/App/CmdDirs.pm",
     ABSTRACT => 'Perform a command in subdirectories',
     PREREQ_PM => {
-        'Module::Build' => 0.36,
         'ExtUtils::MakeMaker' => 6.31,
-        'ExtUtils::Install' => 1.46,
     },
     LICENSE => 'perl',
     EXE_FILES => [ 'bin/cmddirs' ],
