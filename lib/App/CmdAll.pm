@@ -43,23 +43,31 @@ sub run {
         @dirs = glob '*';
     }
 
-    my $traverser;
-    # Create a traverser for specific command types
-    if ($self->{'options'}{'all'}) {
-        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, \@dirs);
-    } elsif ($self->{'options'}->{'git'} || $command =~ /git/) {
-        require App::CmdAll::Traverser::Git;
-        $traverser = App::CmdAll::Traverser::Git->new($command, $topDir, \@dirs);
-    } elsif ($self->{'options'}->{'svn'} || $command =~ /svn/) {
-        require App::CmdAll::Traverser::Subversion;
-        $traverser = App::CmdAll::Traverser::Subversion->new($command, $topDir, \@dirs);
-    } else {
-        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, \@dirs);
-    }
+    my $traverser = $self->getTraverser($command, $topDir, \@dirs);
 
     $traverser->traverse($self->{'options'}->{'quiet'});
 
     return 1;
+}
+
+# Create a traverser for specific command types
+sub getTraverser {
+    my ($self, $command, $topDir, $dirs) = @_;
+    my $traverser;
+
+    if ($self->{'options'}{'all'}) {
+        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, $dirs);
+    } elsif ($self->{'options'}->{'git'} || $command =~ /git/) {
+        require App::CmdAll::Traverser::Git;
+        $traverser = App::CmdAll::Traverser::Git->new($command, $topDir, $dirs);
+    } elsif ($self->{'options'}->{'svn'} || $command =~ /svn/) {
+        require App::CmdAll::Traverser::Subversion;
+        $traverser = App::CmdAll::Traverser::Subversion->new($command, $topDir, $dirs);
+    } else {
+        $traverser = App::CmdAll::Traverser::Base->new($command, $topDir, $dirs);
+    }
+
+    return $traverser;
 }
 
 1;
