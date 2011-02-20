@@ -13,7 +13,7 @@ use App::CmdAll;
 
 =head1 NAME
 
-cmdall - perform an action on subdirectories
+cmdall - perform a command in subdirectories
 
 =head1 SYNOPSIS
 
