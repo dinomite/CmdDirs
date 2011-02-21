@@ -3,10 +3,15 @@
 # See: https://github.com/miyagawa/cpanminus.git:script/build.PL
 use English;
 
+my $baseDir = '.';
+if (scalar(@ARGV) > 0) {
+    $baseDir = $ARGV[0];
+}
+
 # build/cmddirs.PL is the command-line framework (option parsing, etc.)
 open my $in,  "<", "build/cmddirs.PL" or die $!;
 # The fatpacked binary we are building
-open my $out, ">", "cmddirs.tmp" or die $!;
+open my $out, ">", "$baseDir/cmddirs.tmp" or die $!;
 
 print STDERR "Generating cmddirs from script/cmddirs.PL\n";
 
@@ -21,8 +26,8 @@ while (<$in>) {
 close $out;
 
 # Cleanup, make our fatpacked binary executable
-unlink "cmddirs";
-rename "cmddirs.tmp", "cmddirs";
-chmod 0755, "cmddirs";
+unlink "$baseDir/cmddirs";
+rename "$baseDir/cmddirs.tmp", "$baseDir/cmddirs";
+chmod 0755, "$baseDir/cmddirs";
 
-END { unlink "cmddirs.tmp" }
+END { unlink "$baseDir/cmddirs.tmp" }
