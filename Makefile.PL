@@ -38,10 +38,10 @@ WriteMakefile(
     AUTHOR => 'Drew Stephens <drew@dinomite.net>',
     VERSION_FROM => "lib/App/CmdDirs.pm",
     BUILD_REQUIRES => {
-        'App::FatPacker' => 0.9.6,
+        'App::FatPacker' => '0.9.6',
     },
     PREREQ_PM => {
-        'ExtUtils::MakeMaker' => 6.31,
+        'ExtUtils::MakeMaker' => '6.31',
     },
     LICENSE => 'perl',
     EXE_FILES => [ 'bin/cmddirs' ],
