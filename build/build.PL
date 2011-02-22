@@ -15,11 +15,12 @@ open my $out, ">", "$baseDir/cmddirs.tmp" or die $!;
 
 print STDERR "Generating cmddirs from script/cmddirs.PL\n";
 
+# FatPacker wants it's lib
+mkdir "fatlib";
 while (<$in>) {
     # Remove & replace things from bin/cmddirs.PL
     next if /Auto-removed/;
     s/DEVELOPERS:.*/DO NOT EDIT -- this is an auto generated file/;
-    mkdir "$baseDir/fatlib";
     s/.*__FATPACK__/`$EXECUTABLE_NAME -e "use App::FatPacker -run_script" file`/e;
     print $out $_;
 }

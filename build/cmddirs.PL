@@ -6,8 +6,8 @@
 use strict;
 use warnings;
 
-use FindBin qw($Bin);                    # For dev -- Auto-removed
-use lib "$Bin/../lib", "$Bin/../fatlib"; # For dev -- Auto-removed
+use FindBin qw($Bin);  # For dev -- Auto-removed
+use lib "$Bin/../lib"; # For dev -- Auto-removed
 use Getopt::Long;
 use Pod::Usage;
 
