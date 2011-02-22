@@ -19,6 +19,7 @@ while (<$in>) {
     # Remove & replace things from bin/cmddirs.PL
     next if /Auto-removed/;
     s/DEVELOPERS:.*/DO NOT EDIT -- this is an auto generated file/;
+    mkdir "$baseDir/fatlib";
     s/.*__FATPACK__/`$EXECUTABLE_NAME -e "use App::FatPacker -run_script" file`/e;
     print $out $_;
 }
