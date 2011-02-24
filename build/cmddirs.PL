@@ -84,7 +84,7 @@ pod2usage(-verbose => 1) if ($options->{'help'});
 pod2usage(-verbose => 2) if ($options->{'man'});
 
 # We at least need a command
-pod2usage(1) if (scalar(@ARGV) < 0);
+pod2usage(1) if (scalar(@ARGV) == 0);
 
 my $cmdDirs = App::CmdDirs->new(\@ARGV, $options);
 $cmdDirs->run();
