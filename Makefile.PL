@@ -31,7 +31,7 @@ if (-e 'cmddirs') {
     rename 'cmddirs', 'bin/cmddirs';
 }
 
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker 6.56;
 WriteMakefile(
     NAME => 'App::CmdDirs',
     ABSTRACT => 'Perform a command in subdirectories',
