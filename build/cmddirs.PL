@@ -1,8 +1,11 @@
 #!/usr/bin/env perl
 # DEVELOPERS: Read build/build.PL & DEVELOPING for how to update this
-## no critic
+
+# App::FatPac disobeys Perl::Critic
+## no critic (RequireUseStrict, RequireUseWarnings, RequireExtendedFormatting, RequireCarping)
 # __FATPACK__
 ## use critic
+
 use strict;
 use warnings;
 
