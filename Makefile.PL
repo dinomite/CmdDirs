@@ -12,6 +12,8 @@ You should install App::FatPacker before doing so.
 Do not commit the changes to the `cmddirs` standalone executable. We only
 commit changes to this file whenever we tag a new CPAN release.
 
+See App::cpanminus/Makefile.PL
+
 =cut
 use English '-no_match_vars';
 

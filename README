@@ -32,3 +32,5 @@ EXAMPLES
 AUTHOR
     Drew Stephens <drew@dinomite.net>
 
+AKNOWLEDGEMENTS
+    App::cpanminus for the guidance on build scripts & fatpacker
